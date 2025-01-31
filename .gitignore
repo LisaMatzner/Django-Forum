@@ -1,0 +1,4 @@
+*.pyc
+__pycache__
+.~lock.notes.odt#
+.venv
