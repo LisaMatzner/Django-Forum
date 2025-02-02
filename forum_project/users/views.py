@@ -1,3 +1,3 @@
 from django.shortcuts import render
 
-# Views for CRUD
+# Login, Logout, Register
