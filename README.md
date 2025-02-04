@@ -40,9 +40,21 @@ restrictions for actions
 
 
 ## Optional 
-Styling (CSS etc)
-Searchbar (regex?) → Views
-Topics
-Views
-Profile Pic/Avatar
-Implement Pics in Comments
+- Styling (CSS etc)
+- Searchbar (regex?) → Views
+- Topics
+- Views
+- Profile Pic/Avatar
+- Implement Pics in Comments
+
+## Branches
+- main
+- dev (integration branch)
+branching off from dev:
+- feature/authentication -> Lisa
+- feature/thread-crud 
+- feature/comment-crud
+- feature/forms-validation
+- feature/testing
+- feature/...
+
