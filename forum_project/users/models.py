@@ -2,8 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 class CustomUser(AbstractUser):
-    #  display_name, number od posts, days_since_join (calculation), 
-    display_name = models.CharField(max_length=150, unique=True)
+    #  display_name, number_of_posts
+    display_name = models.CharField(max_length=150, default='username')
     number_of_posts = models.IntegerField(default=0)
 
     def __str__(self):
