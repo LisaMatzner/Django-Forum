@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Edit {{thread.title}}{% endblock title %}
+
+{% block content %}
+
+{% if thread.author == request.user %}
+<h2>Update a thread:</h2>
+<form action="" method="post"></form>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Apply">
+</form>
+{% else %}
+Thou shalt not pass!
+{% endif %}
+
+{% endblock content %}
