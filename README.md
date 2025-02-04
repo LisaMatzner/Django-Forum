@@ -21,8 +21,6 @@ Project: Simple Forum
 - create view
 - update view
 - delete view
-- list view
-- detail view
 
 **User**
 - detail view
@@ -46,3 +44,36 @@ Topics
 Views
 Profile Pic/Avatar
 Implement Pics in Comments
+
+## ToDo:
+- Models
+	- Thread
+	- Comment
+- Views
+	- Thread
+		- ListThreadView (home)
+		- DetailThreadView
+		- CreateThreadView
+		- UpdateThreadView
+		- DeleteThreadView
+	- Comment
+		- CreateCommentView
+		- UpdateCommentView
+		- DeleteCommentView
+- URLS & setting
+	- apps
+	- project
+	- check settings
+- templates
+	**forum**
+	- base.html
+	- thread.html <- detail view
+	- threads.html <- list view
+	- landing.html (home)
+	- comment_confirm_delete.html
+	- thread_confirm_delete.html
+
+	**users**
+	- login.html
+	- logout.html
+	- register.html
