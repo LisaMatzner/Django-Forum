@@ -77,3 +77,16 @@ Implement Pics in Comments
 	- login.html
 	- logout.html
 	- register.html
+
+## Branches
+- main
+- dev (integration branch)
+branching off from dev:
+- feature/authentication -> Lisa
+- feature/thread-crud 
+- feature/comment-crud
+- feature/forms-validation
+- feature/testing
+- feature/...
+
+
