@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Delete {{thread.title}}{% endblock title %}
+
+{% block content %}
+
+{% if thread.author == request.user %}
+<h2>Delete an entire thread:</h2>
+<p>{{thread.title}}</p>
+<p>Do you want to send this thread into oblivion?</p>
+<form action="" method="post"></form>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Yes, delete">
+</form>
+{% else %}
+Thou shalt not pass!
+{% endif %}
+
+{% endblock content %}

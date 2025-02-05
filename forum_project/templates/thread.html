@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}{{thread.title}}{% endblock title %}
+{% block content %}
+
+<main>
+    {% if comments|length == 0 %}
+    <p>No comment so far. Why did {{thread.author}} opened this thread in the first place?!</p>
+    {% else %}
+    {% for comment in comments %}
+    <section>
+        <article>
+            <div>
+                <header>By {{comment.author.display_name}} on {{comment.date_posted}}</header>
+                <p>{{comment.text}}</p>
+                <footer>Last edited on {{comment.last_updated}}   {{comment.likes}} Upvotes</footer>
+            </div>
+            <div>
+                <div><!--{{comment.author.avatar}}--></div>
+                <div>
+                    <!--{{comment.author.role}}-->
+                    {{comment.author.date_joined}}
+                    {{comment.author.number_of_posts}}
+                </div>
+            </div>
+        </article>
+        <div>
+            {% if comment.author == request.user %}
+            <a href="{% url 'comment_update' comment.pk %}">Edit</a>
+            <a href="{% url 'comment_delete' comment.pk %}">Delete</a>
+            {% endif %}
+        </div>
+    </section>
+    {% endfor %}
+    {% endif %}
+</main>
+
+{% endblock content %}
