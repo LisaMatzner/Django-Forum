@@ -8,7 +8,7 @@
 <h2>Delete a comment:</h2>
 <p>{{comment.text}}</p>
 <p>Are you sure that you want to delete your comment?</p>
-<form action="" method="post"></form>
+<form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Yes, delete">

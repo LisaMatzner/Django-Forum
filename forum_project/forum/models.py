@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.utils.text import slugify
 
 
 # Create your models here.
@@ -14,12 +15,26 @@ class Thread(models.Model):
     last_updated = models.DateTimeField(auto_now=True)
     flag = models.CharField(choices=FLAG_CHOICES, max_length=20)
     slug = models.SlugField(max_length=100, unique=True)
-    likes = models.IntegerField()
-    views = models.IntegerField()
+    likes = models.IntegerField(default=0)
+    views = models.IntegerField(default=0)
 
 
     def __str__(self):
         return self.title
+    
+    def save(self, *args, **kwargs):
+        base_slug = slugify(self.title)
+        if not Thread.objects.filter(slug=base_slug).exists():
+            self.slug = base_slug
+        else:
+            counter = 1
+            new_slug = f"{base_slug}-{counter}"
+            while Thread.objects.filter(slug=new_slug).exists():
+                counter += 1
+                new_slug = f"{base_slug}-{counter}"
+            self.slug = new_slug
+
+        return super().save(*args, **kwargs)
 
 
 
@@ -30,5 +45,5 @@ class Comment(models.Model):
     text = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    likes = models.IntegerField()
+    likes = models.IntegerField(default=0)
 

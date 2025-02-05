@@ -29,5 +29,13 @@
             <p>{{ last_comment }}</p>
         </div>
     </div>
+    {% if thread.author == request.user and user.is_authenticated %}
+    <a href="{% url 'thread_delete' thread.pk %}">Delete Thread</a>
+    {% endif %}
+    {% endfor %}
+    {% endif %}
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'thread_create' %}">Open New Thread</a>
+    {% endif %}
 
 {% endblock content %}
