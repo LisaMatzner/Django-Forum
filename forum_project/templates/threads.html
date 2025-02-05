@@ -13,7 +13,8 @@
             {{thread.flag}}
         </div>
         <div>
-            <h5>{{thread.title}}</h5>
+            <a href="{% url 'thread' thread.pk %}"><h2>{{thread.title}}</h2></a>
+            
             <p>by {{thread.author.display_name}} | {{thread.date_opened_at}}</p>
         </div>
         <div>

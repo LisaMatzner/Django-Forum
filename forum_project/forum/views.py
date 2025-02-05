@@ -75,10 +75,8 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
     fields = ["text"]
     
     def get_success_url(self):
-        comment = self.get_object()
-        thread = comment.thread
+        return reverse_lazy('thread', kwargs={'pk': self.object.thread.pk})
 
-        return reverse_lazy("thread", kwargs={"pk": thread.pk})
 
     def form_valid(self, form):
         form.instance.author = self.request.user
