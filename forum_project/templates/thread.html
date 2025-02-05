@@ -13,10 +13,10 @@
             <div>
                 <header>By {{comment.author.display_name}} on {{comment.date_posted}}</header>
                 <p>{{comment.text}}</p>
-                <footer>Last edited on {{comment.date_edited}}   {{comment.likes}} Upvotes</footer>
+                <footer>Last edited on {{comment.last_updated}}   {{comment.likes}} Upvotes</footer>
             </div>
             <div>
-                <div>PROFILE_IMAGE</div>
+                <div><!--{{comment.author.avatar}}--></div>
                 <div>
                     <!--{{comment.author.role}}-->
                     {{comment.author.date_joined}}
@@ -25,7 +25,7 @@
             </div>
         </article>
         <div>
-            {% if comment.author request.user %}
+            {% if comment.author == request.user %}
             <a href="{% url 'comment_update' comment.pk %}">Edit</a>
             <a href="{% url 'comment_delete' comment.pk %}">Delete</a>
             {% endif %}
