@@ -1,0 +1,46 @@
+body {
+    background-color: #3e5c76;
+}
+
+main h2 {
+    color: #f0ebd8;
+}
+
+header nav {
+    background-color: #1d2d44;
+
+}
+header nav {
+    color: #f0ebd8;
+}
+
+header nav a {
+    color: #f0ebd8;
+}
+
+main {
+    background-color:#1d2d44;
+}
+
+main section {
+    background: linear-gradient(45deg, #3e5c76, rgb(177, 177, 177));
+    background-color:#3e5c76;
+}
+
+main article header {
+    background: linear-gradient(to left, rgba(0, 0, 0, 0) ,rgba(0, 0, 0, 0),
+    #b1ada1,
+    rgba(0, 0, 0, 0),
+    rgba(0, 0, 0, 0));
+    background-color: #0d1321;
+    color: #f0ebd8;
+}
+
+main article footer {
+    color: #f0ebd8;
+    background-color: #0d1321;
+}
+
+main article div {
+    background-color: #0d1321;
+}

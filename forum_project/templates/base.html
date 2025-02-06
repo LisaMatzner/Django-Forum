@@ -6,19 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'default_style.css' %}">
+    <link rel="stylesheet" href="{% static 'color_style01.css' %}">
 </head>
 <body>
     <header>
         <nav>
-            <ul>
-                <li><a href="{% url 'threads' %}">Home</a></li>
+            <a href="{% url 'threads' %}">Forum</a>
+            <div>
                 {% if request.user.is_authenticated %}
-                <li><a href="{% url 'logout' %}">Log out</a></li>
+                Hi, {{ request.user.username }}
+                <!-- <a href=" url 'profile' user.pk ">Hi,  request.user.username </a> -->
+                <a href="{% url 'logout' %}">Log out</a>
                 {% else %}
-                <li><a href="{% url 'login' %}">Log in</a></li>
-                <li><a href="{% url 'register' %}">Sign up</a></li>
+                <a href="{% url 'register' %}">Sign up</a>
+                <a href="{% url 'login' %}">Log in</a>
                 {% endif %}
-            </ul>
+            </div>
         </nav>
     </header>
 

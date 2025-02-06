@@ -3,40 +3,49 @@
 {% block title %}Topics{% endblock title %}
 
 {% block content %}
+    <main>
+        {% if thread_list|length == 0 %}
+        <p>No thread has been opened yet. Boooooooooooring!</p>
+        {% else %}
+        {% for thread in thread_list %}
+        <div class="threads-div">
+            <div>
+                <div class="div-thread-desc-stats">
+                    <p class="p-post-info01"><span class="span-post-info01">opened by </span>{{thread.author.display_name}} <span class="span-post-info01">| {{thread.date_opened_at}}</span></p>
+                    {% if thread.author == request.user and user.is_authenticated %}
+                    <a href="{% url 'thread_delete' thread.pk %}">Delete Thread</a>
+                    {% endif %}
+                </div>
+                
+                <div>{{thread.flag}}</div>
+                <a class="threads-title" href="{% url 'thread' thread.pk %}"><h2 class="thread-title">{{thread.title}}</h2></a>    
+            </div>
+            <div class="div-thread-desc-stats">
+                <p>{{thread.description}}</p>
+                <div class="div-thread-stats">
+                    <div>
+                        <p>VIEWS</p>
+                        <p>{{ thread.views }}</p>
+                    </div>
+                    <div>
+                        <p>REPLIES</p>
+                        <p>{{ thread_info.0.comment_count}}</p>
+                    </div>
+                    <div>
+                        <p>LAST COMMENT</p>
+                        <p>{{ last_comment }}</p>
+                    </div>
+                </div>
+            </div>
 
-    {% if thread_list|length == 0 %}
-    <p>No thread has been opened yet. Boooooooooooring!</p>
-    {% else %}
-    {% for thread in thread_list %}
-    <div>
-        <div>
-            {{thread.flag}}
-        </div>
-        <div>
-            <a href="{% url 'thread' thread.pk %}"><h2>{{thread.title}}</h2></a>
             
-            <p>by {{thread.author.display_name}} | {{thread.date_opened_at}}</p>
         </div>
-        <div>
-            <p>VIEWS</p>
-            <p>{{ thread.views }}</p>
-        </div>
-        <div>
-            <p>REPLIES</p>
-            <p>{{ comment_count}}</p>
-        </div>
-        <div>
-            <p>LAST COMMENT</p>
-            <p>{{ last_comment }}</p>
-        </div>
-    </div>
-    {% if thread.author == request.user and user.is_authenticated %}
-    <a href="{% url 'thread_delete' thread.pk %}">Delete Thread</a>
-    {% endif %}
-    {% endfor %}
-    {% endif %}
-    {% if request.user.is_authenticated %}
-    <a href="{% url 'thread_create' %}">Open New Thread</a>
-    {% endif %}
+        
+        {% endfor %}
+        {% endif %}
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'thread_create' %}">Open New Thread</a>
+        {% endif %}
+    </main>
 
 {% endblock content %}

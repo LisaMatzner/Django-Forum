@@ -4,37 +4,44 @@
 {% block content %}
 
 <main>
+    <h2>{{ thread.title }}</h2>
+    <div class="new-comment-div"><a class="new-comment" href="{% url 'comment_create' thread.pk%}">New Comment</a></div>
     {% if comments|length == 0 %}
     <p>No comment so far. Why did {{thread.author}} opened this thread in the first place?!</p>
     {% else %}
     {% for comment in comments %}
     <section>
-        <article>
+        <article class="article-content">
+            <header><span>By</span> {{comment.author.display_name}}  <span>{{comment.date_posted}}</span></header>
+            <p>{{comment.text}}</p>
+            <footer> Last edited on {{comment.last_updated}} » {{comment.likes}} Upvotes</footer>
             <div>
-                <header>By {{comment.author.display_name}} on {{comment.date_posted}}</header>
-                <p>{{comment.text}}</p>
-                <footer>Last edited on {{comment.last_updated}}   {{comment.likes}} Upvotes</footer>
-            </div>
-            <div>
-                <div><!--{{comment.author.avatar}}--></div>
-                <div>
-                    <!--{{comment.author.role}}-->
-                    {{comment.author.date_joined}}
-                    {{comment.author.number_of_posts}}
-                </div>
+                {% if comment.author == request.user and user.is_authenticated %}
+                <a class="edit" href="{% url 'comment_update' comment.pk %}">Edit</a>
+                <a class="edit delete" href="{% url 'comment_delete' comment.pk %}">Delete</a>
+                {% else %}
+                <p> </p>
+                {% endif %}
             </div>
         </article>
-        <div>
-            {% if comment.author == request.user and user.is_authenticated %}
-            <a href="{% url 'comment_update' comment.pk %}">Edit</a>
-            <a href="{% url 'comment_delete' comment.pk %}">Delete</a>
-            {% endif %}
+        <div class="author-div">
+            <div><!--{{comment.author.avatar}}--></div>
+            <div>
+                <p>{{comment.author.display_name}}</p>
+                <p>{{comment.author.role}}</p>
+                <p>Joined on {{comment.author.date_joined}}</p>
+                <p>{{comment.author.number_of_posts}} Comments posted</p>
+            </div>
         </div>
+        
+
+        
+        
     </section>
     {% endfor %}
-    {% endif %}
     {% if user.is_authenticated %}
-    <a href="{% url 'comment_create' thread.pk%}">New Comment</a>
+    <div class="new-comment-div"><a class="new-comment" href="{% url 'comment_create' thread.pk%}">New Comment</a></div>
+    {% endif %}
     {% endif %}
 </main>
 
