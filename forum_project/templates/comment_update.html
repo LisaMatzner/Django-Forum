@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Comment{% endblock title %}
+
+{% block content %}
+
+{% if comment.author == request.user %}
+<h2>Edit a comment:</h2>
+<form action="" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Apply">
+</form>
+{% else %}
+Thou shalt not pass!
+{% endif %}
+
+{% endblock content %}

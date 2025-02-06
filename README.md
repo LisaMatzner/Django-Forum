@@ -46,6 +46,14 @@ Profile Pic/Avatar
 Implement Pics in Comments
 
 ## ToDo:
+- slug for threads
+- correctly linking threads to thread
+- Style? - make it look...ok
+- Testing
+- content (description) for thread
+- Content thread
+
+## Done:
 - Models
 	- Thread
 	- Comment
