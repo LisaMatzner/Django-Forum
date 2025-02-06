@@ -29,11 +29,11 @@
                     </div>
                     <div>
                         <p>REPLIES</p>
-                        <p>{{ thread_info.0.comment_count}}</p>
+                        <p>{{ thread.comment_set.count}}</p>
                     </div>
                     <div>
                         <p>LAST COMMENT</p>
-                        <p>{{ last_comment }}</p>
+                        <p>{{ thread.comment_set.last.date_posted }}</p>
                     </div>
                 </div>
             </div>
