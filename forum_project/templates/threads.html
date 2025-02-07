@@ -48,4 +48,62 @@
         {% endif %}
     </main>
 
+    <main>
+        <div class="threads-outer-div">
+            <ul class="threads-list">
+                <li>
+                    <dl class="threads-desc-list">
+                        <dt class="threads-topic">{% if user.is_authenticated %}<a class="symbol-padding-r" href="{% url 'thread_create' %}" title="New Thread">&#x1F58A; </a>{% endif %}Topic</dt>
+                        <dd class="threads-views">&#x1F441;</dd>
+                        <dd class="threads-views">&#x1F5E8;</dd>
+                        <dd class="threads-last-post">Last Comment</dd>
+                    </dl>
+                </li>
+                
+            </ul>
+            <ul class="threads-list">
+                {% for thread in thread_list %}
+                <li class="threads-list-item">
+                    <dl class="threads-desc-list">
+                        <dt class="threads-topic tt2">
+                            <div class="threads-inner-div">
+                                <div class="flag">&#x1F525;</div>
+                                <div>
+                                    <a class="threads-topic-name" href="{% url 'thread' thread.pk %}">{{ thread.title }}</a>
+                                    <br>
+                                    <div>
+                                        <span class="by-author-span">opened by</span> <a class="author" href="">{{ thread.author.display_name }}</a><span class="by-author-span">on {{ thread.date_opened_at }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if thread.author == request.user %}
+                            <div class="flag">
+                                <a class="action" href="{% url 'thread_update' thread.pk %}">&#x1F58B;</a>
+                                <a class="action" href="{% url 'thread_delete' thread.pk %}">&#x1F9E8;</a>
+                            </div>
+                            {% endif %}
+                        </dt>
+                        <dd class="threads-views">»views«</views></dd>
+                        <dd class="threads-views">{{ thread.comment_set.count }}</dd>
+                        <dd class="threads-last-post">
+                            <div>
+                                {% if thread.comment_set.count > 0 %}
+                                {{ thread.comment_set.last.date_posted }}
+                                <br>
+                                <div>
+                                    <span class="by-author-span">by</span> <a class="author" href="">{{ thread.comment_set.last.author.display_name }}</a>    
+                                </div>
+                                {% else %}
+                                <div>Nobody posted there yet.</div>
+                                {% endif %}
+                            </div>
+                        </dd>
+                    </dl>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+
+
 {% endblock content %}
