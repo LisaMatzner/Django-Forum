@@ -114,10 +114,10 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 ---
 
 ## **Project Team**
-- **Member 1**: LisaMatzner
-- **Member 2**: ChrisPMint
-- **Member 3**: navid-dot
-- **Member 4**: blueanthocyanin
+- **Member 1**: [Lisa Matzner](https://github.com/LisaMatzner)
+- **Member 2**: [ChrisPMint](https://github.com/ChrisPMint)
+- **Member 3**: [navid-dot](https://github.com/navid-dot)
+- **Member 4**: [blueanthocyanin](https://github.com/blueanthocyanin)
 
 ---
 
