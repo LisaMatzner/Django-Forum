@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ profile_user.display_name }}'s Profile</h2>
+    <p><strong>@</strong>{{ profile_user.username }}</p>
+    <p><strong>Date Joined:</strong> {{ profile_user.date_joined|date:"Y-m-d" }}</p>
+
+    <h3>Your Threads</h3>
+    {% if user_threads %}
+        <ul>
+            {% for thread in user_threads %}
+                <li>
+                    <a href="{% url 'thread' thread.id %}">{{ thread.title }}</a> 
+                    <small>Created on {{ thread.date_opened_at|date:"Y-m-d H:i" }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven't created any threads yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

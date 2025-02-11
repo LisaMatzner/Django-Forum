@@ -1,8 +1,10 @@
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import render, redirect
-from django.views.generic import View
-from .forms import CustomUserCreationForm  
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.generic import View, DetailView
+from .forms import CustomUser, CustomUserCreationForm  
+from forum.models import Thread
 
 
 class RegisterView(View):
@@ -35,3 +37,22 @@ class LogoutView(View):
     def get(self, request):
         logout(request)  
         return redirect('login')  
+
+
+class UserProfileView(LoginRequiredMixin, DetailView):
+    model = CustomUser
+    template_name = 'users/profile.html'
+    context_object_name = 'profile_user'
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
+
+    def get_object(self):
+        """Retrieve the user based on the username in the URL.
+        no need to pass pk or slug in URL"""
+        return get_object_or_404(CustomUser, username=self.kwargs['username'])
+
+    def get_context_data(self, **kwargs):
+        """Add the user's threads to context"""
+        context = super().get_context_data(**kwargs)
+        context['user_threads'] = Thread.objects.filter(author=self.request.user)
+        return context
