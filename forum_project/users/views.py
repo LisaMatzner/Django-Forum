@@ -2,8 +2,10 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import View, DetailView
-from .forms import CustomUser, CustomUserCreationForm  
+from django.views.generic import View, DetailView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from .forms import CustomUserCreationForm, CustomUserChangeForm  
+from .models import CustomUser
 from forum.models import Thread
 
 
@@ -63,3 +65,29 @@ class UserProfileView(LoginRequiredMixin, DetailView):
             context['user_threads'] = Thread.objects.filter(author=self.object)
         
         return context
+
+
+class EditUserView(LoginRequiredMixin, UpdateView):
+    model = CustomUser
+    template_name = 'users/edit_user.html'
+    context_object_name = 'user'
+    form_class = CustomUserChangeForm
+
+    def get_object(self):
+        """Return the logged-in user object"""
+        return self.request.user
+
+    def get_success_url(self):
+        """Redirect to the user's profile page after successful edit"""
+        return reverse_lazy('user-profile', kwargs={'username': self.object.username})
+
+
+class DeleteUserView(LoginRequiredMixin, DeleteView):
+    model = CustomUser
+    template_name = 'users/delete_user.html'
+    context_object_name = 'user'
+    success_url = reverse_lazy('threads')
+
+    def get_object(self):
+        """Get the logged-in user object to delete"""
+        return self.request.user
