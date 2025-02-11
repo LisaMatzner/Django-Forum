@@ -54,5 +54,12 @@ class UserProfileView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         """Add the user's threads to context"""
         context = super().get_context_data(**kwargs)
-        context['user_threads'] = Thread.objects.filter(author=self.request.user)
+        
+        if self.object == self.request.user:
+            # If it's the logged-in user, get threads they've created
+            context['user_threads'] = Thread.objects.filter(author=self.request.user)
+        else:
+            # If it's another user's profile, get threads they've created
+            context['user_threads'] = Thread.objects.filter(author=self.object)
+        
         return context
