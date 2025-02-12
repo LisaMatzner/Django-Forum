@@ -14,12 +14,11 @@
             <a href="{% url 'threads' %}">Forum</a>
             <div>
                 {% if request.user.is_authenticated %}
-                Hi, {{ request.user.username }}
-                <!-- <a href=" url 'profile' user.pk ">Hi,  request.user.username </a> -->
-                <a href="{% url 'logout' %}">Log out</a>
+                    Hi,<a href="{% url 'user-profile' username=user.username %}">{{ request.user.username }}</a>
+                    <a href="{% url 'logout' %}">Log out</a>
                 {% else %}
-                <a href="{% url 'register' %}">Sign up</a>
-                <a href="{% url 'login' %}">Log in</a>
+                    <a href="{% url 'register' %}">Sign up</a>
+                    <a href="{% url 'login' %}">Log in</a>
                 {% endif %}
             </div>
         </nav>

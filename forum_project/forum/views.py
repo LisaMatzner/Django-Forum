@@ -42,6 +42,7 @@ class ThreadDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["comments"] = self.object.comment_set.all() # Get all comments from the parent thread. Customize 'comment_set' with <related_name='comments'> inside Post model: thread = models.ForeignKey(Thread, related_name=...)
+        context_object_name = 'thread'
 
         return context
 
