@@ -3,30 +3,12 @@
 }
 
 body {
-    background-color: rgb(204, 204, 204);
+    background-color: rgb(205, 205, 205);
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     padding: 15px;
 }
 
-header nav {
-    display: flex;
-    justify-content: space-between;
-    background-color: gray;
-    padding: 5px;
-    border-radius: 10px;
-}
-
-header nav a {
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-header nav p {
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-main {
+.main {
     background-color: rgb(138, 138, 138);
     display: flex;
     flex-direction: column;
@@ -36,13 +18,13 @@ main {
     margin-top: 30px;
 }
 
-main h2 {
+.main h2 {
     display: flex;
     justify-content: center;
     color: black;
 }
 
-main section {
+.main section {
     display: flex;
     background-color: rgb(172, 172, 172);
     background: linear-gradient(45deg, rgb(114, 114, 114), rgb(177, 177, 177));
@@ -52,14 +34,14 @@ main section {
     border-radius: 10px;
 }
 
-main article {
+.main article {
     display: flex;
     flex-direction: column;
     margin: 0px;
     border-right: black solid 2px;
 }
 
-main article header {
+.main article header {
     border-bottom: black solid 2px;
     padding: 2px;
     padding-left: 10px;;
@@ -72,12 +54,12 @@ main article header {
     background-clip: content-box
 }
 
-main article p {
+.main article p {
     padding: 0px;
     padding-left: 10px;
 }
 
-main article footer {
+.main article footer {
     border-top: black solid 2px;
     padding: 2px;
     padding-left: 10px;
@@ -85,12 +67,12 @@ main article footer {
     margin-bottom: 0px;
 }
 
-main article header span {
+.main article header span {
     font-size: 12px;
     font-weight: normal;
 }
 
-main article div {
+.main article div {
     padding-left: 10px;
     padding-top: 23px;
     padding-bottom: 5px;
@@ -175,4 +157,195 @@ main article div {
     justify-content: space-around;
     flex-direction: row;
     width: 30%;
+}
+
+.top-header {
+    margin-bottom: 10px;
+    padding-bottom: 30px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.top-header a {
+    color: rgb(71, 14, 226);
+    font-weight: bold;
+    text-decoration-line: none;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.header-nav {
+    display: flex;
+    justify-content: space-between;
+    background-color: rgb(180, 180, 180);
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.threads-main {
+    display: flex;
+}
+
+.threads-outer-div {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.threads-inner-div {
+    display: flex;
+    flex-direction: row;
+    margin: 0px;
+}
+
+.threads-list {
+    list-style-type: none;
+    padding-left: 0px;
+    margin: 0px;
+    margin-bottom: 10px;
+}
+
+.threads-list-item {
+    margin-bottom: 5px;
+}
+
+.threads-desc-list {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    margin: 0px;
+    padding: 0px;
+}
+
+.threads-topic {
+    display: flex;
+    align-items: center;
+    width: 70%;
+    margin: 0px;
+    margin-left: 5px;
+    padding-left: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: rgb(230, 230, 230);
+    border-radius: 5px;
+}
+
+.tt1 {
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.tt2 {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.threads-description {
+    padding-top: 10px;
+    padding-left: 10px;
+    font-size: 15px;
+}
+
+.threads-views {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 5%;
+    margin: 0px;
+    margin-left: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: rgb(230, 230, 230);
+    border-radius: 5px;
+
+}
+
+.threads-last-post {
+    display: flex;
+    align-items: center;
+    width: 20%;
+    margin: 0px;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-left: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    background-color: rgb(230, 230, 230);
+    border-radius: 5px;
+}
+
+.by-author-span {
+    font-size: 13px;
+    padding-left: 5px;
+}
+
+.author {
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration-line: none;
+    color: rgb(71, 14, 226);
+}
+
+.symbol-padding-r {
+    padding-right: 10px;
+    text-decoration-line: none;
+}
+
+.threads-topic-name {
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration-line: none;
+    color: rgb(201, 139, 7);
+}
+
+.flag {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    text-decoration-line: none;
+}
+
+.action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 10px;
+    padding-right: 10px;;
+    font-size: 25px;
+    text-decoration-line: none;
+}
+
+.thread-create-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.thread-create-h1 {
+    display: flex;
+    justify-content: center;
+}
+
+.thread-create-form {
+    display: flex;
+    flex-direction: column;
+    padding-left: 75px;
+    padding-right: 75px;
+    padding-top: 25px;
+    padding-bottom: 75px;
+    margin-left: 250px;
+    margin-right: 250px;
+    border-radius: 25px;
+    background-color: rgb(230, 230, 230);
+}
+
+.thread-create-desc {
+    color: brown;
+}
+
+.thread-create-label {
+    margin: 5px;
+    margin-top: 30px;
 }
