@@ -3,49 +3,70 @@
 {% block title %}Topics{% endblock title %}
 
 {% block content %}
-    <main>
-        {% if thread_list|length == 0 %}
-        <p>No thread has been opened yet. Boooooooooooring!</p>
-        {% else %}
-        {% for thread in thread_list %}
-        <div class="threads-div">
-            <div>
-                <div class="div-thread-desc-stats">
-                    <p class="p-post-info01"><span class="span-post-info01">opened by </span>{{thread.author.display_name}} <span class="span-post-info01">| {{thread.date_opened_at}}</span></p>
-                    {% if thread.author == request.user and user.is_authenticated %}
-                    <a href="{% url 'thread_delete' thread.pk %}">Delete Thread</a>
-                    {% endif %}
-                </div>
-                
-                <div>{{thread.flag}}</div>
-                <a class="threads-title" href="{% url 'thread' thread.pk %}"><h2 class="thread-title">{{thread.title}}</h2></a>    
-            </div>
-            <div class="div-thread-desc-stats">
-                <p>{{thread.description}}</p>
-                <div class="div-thread-stats">
-                    <div>
-                        <p>VIEWS</p>
-                        <p>{{ thread.views }}</p>
-                    </div>
-                    <div>
-                        <p>REPLIES</p>
-                        <p>{{ thread.comment_set.count}}</p>
-                    </div>
-                    <div>
-                        <p>LAST COMMENT</p>
-                        <p>{{ thread.comment_set.last.date_posted }}</p>
-                    </div>
-                </div>
-            </div>
 
-            
+    <main>
+        <div class="threads-outer-div">
+            <ul class="threads-list">
+                <li>
+                    <dl class="threads-desc-list">
+                        <dt class="threads-topic">{% if user.is_authenticated %}<a class="symbol-padding-r" href="{% url 'thread_create' %}" title="New Thread">&#x1F58A; </a>{% endif %}Topic</dt>
+                        <dd class="threads-views">&#x1F441;</dd>
+                        <dd class="threads-views">&#x1F5E8;</dd>
+                        <dd class="threads-last-post">Last Comment</dd>
+                    </dl>
+                </li>
+                
+            </ul>
+            <ul class="threads-list">
+                {% for thread in thread_list %}
+                <li class="threads-list-item">
+                    <dl class="threads-desc-list">
+                        <dt class="threads-topic tt2">
+                            <div class="threads-inner-div">
+                                {% if thread.flag == "('n', 'new')" %}
+                                <div class="flag" title="New">&#x1F525;</div>
+                                {% elif thread.flag == "('s', 'sticky')" %}
+                                <div class="flag" title="Pinned">&#x1F4CE;</div>
+                                {% elif thread.flag == "('c', 'closed')" %}
+                                <div class="flag" title="Closed">&#x1F510;</div>
+                                {% else %}
+                                <div class="flag" title="Normal">&#x1F9F6;</div>
+                                {% endif %}
+                                <div>
+                                    <a class="threads-topic-name" href="{% url 'thread' thread.pk %}">{{ thread.title }}</a>
+                                    <br>
+                                    <div>
+                                        <span class="by-author-span">opened by</span> <a class="author" href="">{{ thread.author.display_name }}</a><span class="by-author-span">on {{ thread.date_opened_at }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            {% if thread.author == request.user %}
+                            <div class="flag">
+                                <a class="action" href="{% url 'thread_update' thread.pk %}" title="Edit Thread">&#x1F58B;</a>
+                                <a class="action" href="{% url 'thread_delete' thread.pk %}" title="Delete Thread">&#x1F9E8;</a>
+                            </div>
+                            {% endif %}
+                        </dt>
+                        <dd class="threads-views">»views«</views></dd>
+                        <dd class="threads-views">{{ thread.comment_set.count }}</dd>
+                        <dd class="threads-last-post">
+                            <div>
+                                {% if thread.comment_set.count > 0 %}
+                                {{ thread.comment_set.last.date_posted }}
+                                <br>
+                                <div>
+                                    <span class="by-author-span">by</span> <a class="author" href="">{{ thread.comment_set.last.author.display_name }}</a>    
+                                </div>
+                                {% else %}
+                                <div>Nobody posted there yet.</div>
+                                {% endif %}
+                            </div>
+                        </dd>
+                    </dl>
+                </li>
+                {% endfor %}
+            </ul>
         </div>
-        
-        {% endfor %}
-        {% endif %}
-        {% if request.user.is_authenticated %}
-        <a href="{% url 'thread_create' %}">Open New Thread</a>
-        {% endif %}
     </main>
 
 {% endblock content %}

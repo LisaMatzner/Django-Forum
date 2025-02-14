@@ -9,8 +9,8 @@
     <link rel="stylesheet" href="{% static 'color_style01.css' %}">
 </head>
 <body>
-    <header>
-        <nav>
+    <header class="top-header">
+        <nav class="header-nav">
             <a href="{% url 'threads' %}">Forum</a>
             <div>
                 {% if request.user.is_authenticated %}

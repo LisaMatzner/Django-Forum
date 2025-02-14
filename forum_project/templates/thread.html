@@ -3,7 +3,7 @@
 {% block title %}{{thread.title}}{% endblock title %}
 {% block content %}
 
-<main>
+<main class="main">
     <h2>{{ thread.title }}</h2>
     <div class="new-comment-div"><a class="new-comment" href="{% url 'comment_create' thread.pk%}">New Comment</a></div>
     {% if comments|length == 0 %}

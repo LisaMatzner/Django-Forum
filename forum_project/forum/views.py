@@ -5,6 +5,7 @@ from django.db.models import Count
 from django.shortcuts import get_object_or_404
 
 from .models import Thread, Comment
+from . import forms
 
 
 class ThreadListView(ListView):
@@ -49,7 +50,7 @@ class ThreadDetailView(DetailView):
 class ThreadCreateView(LoginRequiredMixin, CreateView):
     model = Thread
     template_name = "thread_create.html"
-    fields = ["title", "description"]
+    form_class = forms.ThreadCreateForm
     success_url = reverse_lazy("threads")
 
     def form_valid(self, form):
