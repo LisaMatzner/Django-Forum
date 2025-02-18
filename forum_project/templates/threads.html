@@ -36,7 +36,7 @@
                                     <a class="threads-topic-name" href="{% url 'thread' thread.pk %}">{{ thread.title }}</a>
                                     <br>
                                     <div>
-                                        <span class="by-author-span">opened by</span> <a class="author" href="">{{ thread.author.display_name }}</a><span class="by-author-span">on {{ thread.date_opened_at }}</span>
+                                        <span class="by-author-span">opened by</span> <a href="{% url 'user-profile' username=thread.author.username %}">{{ thread.author.display_name }}</a><span class="by-author-span">on {{ thread.date_opened_at }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -55,7 +55,7 @@
                                 {{ thread.comment_set.last.date_posted }}
                                 <br>
                                 <div>
-                                    <span class="by-author-span">by</span> <a class="author" href="">{{ thread.comment_set.last.author.display_name }}</a>    
+                                    <span class="by-author-span">by</span> <a href="{% url 'user-profile' username=thread.comment_set.last.author.username %}">{{ thread.comment_set.last.author.display_name }}</a>    
                                 </div>
                                 {% else %}
                                 <div>Nobody posted there yet.</div>

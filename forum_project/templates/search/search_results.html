@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block content %}
+<form method="GET" action="{% url 'search-results' %}">
+    <input type="hidden" name="q" value="{{ query }}">
+
+    <button type="submit" name="filter" value="newest">Newest</button>
+    <button type="submit" name="filter" value="oldest">Oldest</button>
+    <button type="submit" name="filter" value="most_comments">Most Comments</button>
+    <button type="submit" name="filter" value="last_comments">Least Comments</button>
+    {% comment %} <button type="submit" name="filter" value="most_views">Most Views</button> {% endcomment %}
+</form>
+
+<h2>Search Results for "{{ query }}"</h2>
+
+{% if users %}
+    <h3>Users</h3>
+    <ul>
+        {% for user in users %}
+            <li><a href="{% url 'user-profile' user.username %}">
+                    {{ user.display_name }}</a> </br>
+                <a href="{% url 'user-profile' user.username %}">
+                    @{{ user.username }}</a></li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% if results %}
+    <h3>Threads</h3>
+    <ul>
+        {% for thread in results %}
+            <li>
+                <a href="{% url 'thread' thread.id %}">{{ thread.title }}</a> 
+                <small>({{ thread.date_opened_at|date:"Y-m-d" }})</small>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No threads found.</p>
+{% endif %}
+
+{% endblock %}
