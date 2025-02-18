@@ -139,3 +139,4 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 ## **Acknowledgments**
 - Thanks to the Django community for their excellent documentation and support.
 - Special thanks to our team members for their hard work and collaboration.
+
