@@ -1,10 +1,11 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count
+from django.db.models import Count, F
 from django.shortcuts import get_object_or_404
 
 from .models import Thread, Comment
+from . import forms
 
 
 class ThreadListView(ListView):
@@ -42,13 +43,26 @@ class ThreadDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["comments"] = self.object.comment_set.all() # Get all comments from the parent thread. Customize 'comment_set' with <related_name='comments'> inside Post model: thread = models.ForeignKey(Thread, related_name=...)
+        context_object_name = 'thread'
 
         return context
+    
+    def get_object(self, queryset=None):
+        thread = super().get_object(queryset)
+        user_session_key = f"viewed_thread_{thread.id}"
+
+        if not self.request.session.get(user_session_key, False):
+            thread.views = F("views") + 1
+            thread.save()
+
+            self.request.session[user_session_key] = True
+        
+        return thread
 
 class ThreadCreateView(LoginRequiredMixin, CreateView):
     model = Thread
     template_name = "thread_create.html"
-    fields = ["title", "description"]
+    form_class = forms.ThreadCreateForm
     success_url = reverse_lazy("threads")
 
     def form_valid(self, form):
@@ -61,6 +75,7 @@ class ThreadUpdateView(LoginRequiredMixin, UpdateView):
     model = Thread
     template_name = "thread_update.html"
     fields = ["description", "flag"]
+    success_url = reverse_lazy("threads")
 
 
 class ThreadDeleteView(LoginRequiredMixin, DeleteView):

@@ -4,16 +4,20 @@ from django.utils.text import slugify
 
 
 # Create your models here.
+class ThreadStatus(models.TextChoices):
+    DEFAULT = "default", "Normal"
+    CLOSED = "closed", "Closed"
+    PINNED = "pinned", "Pinned"
+    NEW = "new", "New"
+
 
 class Thread(models.Model):
-    FLAG_CHOICES = [("d", "default"), ("c","closed"), ("s" ,"sticky"), ("n" ,"new")]
-
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     description = models.TextField()
     date_opened_at = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    flag = models.CharField(choices=FLAG_CHOICES, max_length=20)
+    flag = models.CharField(choices=ThreadStatus.choices, max_length=20, default=ThreadStatus.NEW)
     slug = models.SlugField(max_length=100, unique=True)
     likes = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
@@ -46,4 +50,11 @@ class Comment(models.Model):
     date_posted = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     likes = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.author.number_of_posts += 1
+            self.author.save()
+
+        return super().save(*args, **kwargs)
 

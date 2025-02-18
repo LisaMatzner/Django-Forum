@@ -4,15 +4,21 @@
 
 {% block content %}
 
-{% if user.is_authenticated %}
-<h2>Open a new thread:</h2>
-<form action="" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Create">
-</form>
-{% else %}
-Thou shalt not pass!
-{% endif %}
+<main class="thread-create-main">
+    {% if user.is_authenticated %}
+    <h1 class="thread-create-h1">Open a new thread:</h1>
+    <form class="thread-create-form" action="" method="post">
+        {% csrf_token %}
+        <label class="thread-create-label" for="{{ form.title.id_for_label }}">Title</label>
+        {{ form.title }}
+        <label class="thread-create-label" for="{{ form.description.id_for_label }}">Description</label>
+        {{ form.description }}
+        <input type="submit" value="Create">
+    </form>
+    {% else %}
+    Thou shalt not pass!
+    {% endif %}
+</main>
+
 
 {% endblock content %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>{{ profile_user.display_name }}'s Profile</h2>
+    <p><strong>@</strong>{{ profile_user.username }}</p>
+    <p><strong>Date Joined:</strong> {{ profile_user.date_joined|date:"Y-m-d" }}</p>
+
+    <!-- button to edit or delete -->
+    {% if profile_user == user %}
+        <div class="profile-actions">
+            <a href="{% url 'edit-user' username=user.username %}">
+                <button type="button">Edit Profile</button>
+            </a>
+            <a href="{% url 'delete-user' username=user.username %}">
+                <button type="button" style="color: red;">Delete Account</button>
+            </a>
+        </div>
+    {% endif %}
+
+    <!-- Check if viewing own profile (logged-in user) -->
+    {% if profile_user == user %}
+        <h3>Your Threads</h3>
+        {% if user_threads %}
+            <ul>
+                {% for thread in user_threads %}
+                    <li>
+                        <a href="{% url 'thread' thread.id %}">{{ thread.title }}</a> 
+                        <small>Created on {{ thread.date_opened_at|date:"Y-m-d H:i" }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>You haven't created any threads yet. Start a new one!</p>
+        {% endif %}
+    {% else %}
+        <!-- Display threads for another user's profile -->
+        <h3>Threads by {{ profile_user.username }}</h3>
+        {% if user_threads %}
+            <ul>
+                {% for thread in user_threads %}
+                    <li>
+                        <a href="{% url 'thread' thread.id %}">{{ thread.title }}</a> 
+                        <small>Created on {{ thread.date_opened_at|date:"Y-m-d H:i" }}</small>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>{{ profile_user.display_name }} hasn't created any threads yet.</p>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

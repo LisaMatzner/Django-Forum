@@ -6,7 +6,7 @@
 
 {% if thread.author == request.user %}
 <h2>Update a thread:</h2>
-<form action="" method="post"></form>
+<form action="" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Apply">
