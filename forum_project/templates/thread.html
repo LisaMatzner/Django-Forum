@@ -12,7 +12,7 @@
     {% for comment in comments %}
     <section>
         <article class="article-content">
-            <header><span>By</span> <a href="{% url 'user-profile' username=comment.author.username %}">{{comment.author.display_name}} </a> <span>{{comment.date_posted}}</span></header>
+            <header><span>By</span> <a class="author" href="{% url 'user-profile' username=comment.author.username %}">{{comment.author.display_name}} </a> <span>{{comment.date_posted}}</span></header>
             <p>{{comment.text}}</p>
             <footer> Last edited on {{comment.last_updated}} » {{comment.likes}} Upvotes</footer>
             <div>
@@ -27,7 +27,7 @@
         <div class="author-div">
             <div><!--{{comment.author.avatar}}--></div>
             <div>
-                <p><a href="{% url 'user-profile' username=comment.author.username %}">
+                <p><a class="author" href="{% url 'user-profile' username=comment.author.username %}">
                     {{comment.author.display_name}}</a></p>
                 <p>{{comment.author.role}}</p>
                 <p>Joined on {{comment.author.date_joined}}</p>
