@@ -23,11 +23,11 @@
                     <dl class="threads-desc-list">
                         <dt class="threads-topic tt2">
                             <div class="threads-inner-div">
-                                {% if thread.flag == "('n', 'new')" %}
+                                {% if thread.flag == "new" %}
                                 <div class="flag" title="New">&#x1F525;</div>
-                                {% elif thread.flag == "('s', 'sticky')" %}
+                                {% elif thread.flag == "pinned" %}
                                 <div class="flag" title="Pinned">&#x1F4CE;</div>
-                                {% elif thread.flag == "('c', 'closed')" %}
+                                {% elif thread.flag == "closed" %}
                                 <div class="flag" title="Closed">&#x1F510;</div>
                                 {% else %}
                                 <div class="flag" title="Normal">&#x1F9F6;</div>
@@ -47,7 +47,7 @@
                             </div>
                             {% endif %}
                         </dt>
-                        <dd class="threads-views">»views«</views></dd>
+                        <dd class="threads-views">{{ thread.views }}</views></dd>
                         <dd class="threads-views">{{ thread.comment_set.count }}</dd>
                         <dd class="threads-last-post">
                             <div>
