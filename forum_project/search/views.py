@@ -29,8 +29,10 @@ class SearchResultsView(ListView):
             threads = threads.order_by("-comment_count")
         elif filter_option == "least_comments":
             threads = threads.order_by("comment_count") 
-        # elif filter_option == "most_views":
-        #     threads = threads.order_by("-views")
+        elif filter_option == "most_views":
+            threads = threads.order_by("-views")
+        elif filter_option == "least_views":
+            threads = threads.order_by("views")
         return threads
 
     def get_context_data(self, **kwargs):

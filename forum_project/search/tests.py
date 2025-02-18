@@ -18,17 +18,20 @@ class SearchResultsViewTestCase(TestCase):
         cls.thread1 = Thread.objects.create(
             author=cls.user1,
             title="Test Thread 1",
-            description="Description for Test Thread 1"
+            description="Description for Test Thread 1",
+            views = 10,
         )
         cls.thread2 = Thread.objects.create(
             author=cls.user2,
             title="Test Thread 2",
-            description="Description for Test Thread 2"
+            description="Description for Test Thread 2",
+            views = 50,
         )
         cls.thread3 = Thread.objects.create(
             author=cls.user2,
             title="Test Thread 3",
-            description="Description for Test Thread 3"
+            description="Description for Test Thread 3",
+            views = 20,
         )
 
         # Add comments to some threads
@@ -107,6 +110,20 @@ class SearchResultsViewTestCase(TestCase):
         thread_with_least_comments = response.context['results'][0]
         self.assertEqual(thread_with_least_comments.comment_count, 0)
 
+    def test_filter_threads_by_most_views(self):
+        """Test sorting threads by most views."""
+        response = self.client.get(reverse('search-results'), {'q': 'Test', 'filter': 'most_views'})
+        self.assertEqual(response.status_code, 200)
+        # Check if the threads are ordered by most views (highest views first)
+        self.assertTrue(response.context['results'][0].views >= response.context['results'][1].views)
+
+    def test_filter_threads_by_least_views(self):
+        """Test sorting threads by least views."""
+        response = self.client.get(reverse('search-results'), {'q': 'Test', 'filter': 'least_views'})
+        self.assertEqual(response.status_code, 200)
+        # Check if the threads are ordered by least views (lowest views first)
+        self.assertTrue(response.context['results'][0].views <= response.context['results'][1].views)
+
     def test_search_filter_options_displayed(self):
         """Test if filter options are displayed on the search results page."""
         response = self.client.get(reverse('search-results'), {'q': 'Test'})
@@ -116,3 +133,5 @@ class SearchResultsViewTestCase(TestCase):
         self.assertContains(response, 'Oldest')
         self.assertContains(response, 'Most Comments')
         self.assertContains(response, 'Least Comments')
+        self.assertContains(response, 'Most Views')
+        self.assertContains(response, 'Least Views')
