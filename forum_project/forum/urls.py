@@ -7,7 +7,8 @@ from .views import (
     ThreadDeleteView,
     CommentCreateView,
     CommentUpdateView,
-    CommentDeleteView
+    CommentDeleteView,
+    ToggleLikeView
 )
 
 urlpatterns = [
@@ -19,4 +20,5 @@ urlpatterns = [
     path('threads/<int:pk>/comment/', CommentCreateView.as_view(), name='comment_create'),
     path('comment/<int:pk>/update/', CommentUpdateView.as_view(), name='comment_update'),
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
+    path('toggle-like/<int:comment_id>/', ToggleLikeView.as_view(), name='toggle_like'),
 ]

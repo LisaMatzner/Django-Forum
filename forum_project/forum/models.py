@@ -49,7 +49,7 @@ class Comment(models.Model):
     text = models.TextField()
     date_posted = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    likes = models.IntegerField(default=0)
+
 
     def save(self, *args, **kwargs):
         if not self.pk:
@@ -57,4 +57,27 @@ class Comment(models.Model):
             self.author.save()
 
         return super().save(*args, **kwargs)
+    
+
+    def like_count(self):
+        return self.likes.count()  # Count all likes for this comment
+    
+
+    def __str__(self):
+        return f'Comment by {self.author} on {self.thread}'
+    
+
+class Like(models.Model):
+
+    liked_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='likes')
+
+
+    class Meta:
+        unique_together = ('liked_by', 'comment')  # Enforce one like per user per comment
+
+
+
+    def __str__(self):
+        return f'{self.comment} was liked by {self.liked_by}'
 
