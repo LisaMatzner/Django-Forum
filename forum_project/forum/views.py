@@ -1,10 +1,11 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, F
 from django.shortcuts import get_object_or_404
+from django.http import JsonResponse
 
-from .models import Thread, Comment
+from .models import Thread, Comment, Like
 from . import forms
 
 
@@ -121,3 +122,20 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
         thread = comment.thread # Get the parent thread
 
         return reverse_lazy("thread", kwargs={"pk": thread.pk}) # Redirect to the parent thread
+    
+
+class ToggleLikeView(LoginRequiredMixin, View):
+
+    def post(self, request, comment_id):
+        user = request.user
+        comment = get_object_or_404(Comment, id=comment_id)
+
+        like, created = Like.objects.get_or_create(liked_by=user, comment=comment)
+
+        if not created:
+            like.delete()  # Unlike if already liked
+            liked = False
+        else:
+            liked = True  # Like the comment
+
+        return JsonResponse({"liked": liked, "like_count": comment.like_count()})
