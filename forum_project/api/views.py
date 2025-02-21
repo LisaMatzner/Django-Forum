@@ -3,10 +3,11 @@ from rest_framework import generics, permissions
 from django.contrib.auth import get_user_model
 from .serializers import ThreadSerializer, CommentSerializer, CustomUserSerializer, LikeSerializer
 from forum.models import Thread, Comment, Like
+from forum.permissions import IsOwnerOrReadOnly
 
 
 class ThreadRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (permissions.IsAdminUser, )
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, )
     queryset = Thread.objects.all()
     serializer_class = ThreadSerializer
 
@@ -18,7 +19,7 @@ class ThreadListCreateAPIView(generics.ListCreateAPIView):
 
 
 class CommentRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (permissions.IsAdminUser, )
+    permission_classes = (permissions.IsAdminUser, IsOwnerOrReadOnly, )
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
