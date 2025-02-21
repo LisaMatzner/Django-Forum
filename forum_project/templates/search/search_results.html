@@ -17,9 +17,9 @@
     <h3>Users</h3>
     <ul>
         {% for user in users %}
-            <li><a href="{% url 'user-profile' user.username %}">
+            <li><a class="author" href="{% url 'user-profile' user.username %}">
                     {{ user.display_name }}</a> </br>
-                <a href="{% url 'user-profile' user.username %}">
+                <a class="author" href="{% url 'user-profile' user.username %}">
                     @{{ user.username }}</a></li>
         {% endfor %}
     </ul>
