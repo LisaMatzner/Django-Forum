@@ -18,7 +18,7 @@ class ThreadListCreateAPIView(generics.ListCreateAPIView):
 
 
 class CommentRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (permissions.IsAdminUser)
+    permission_classes = (permissions.IsAdminUser, )
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
