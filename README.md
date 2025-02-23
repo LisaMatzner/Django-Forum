@@ -1,3 +1,4 @@
+
 # **Django Forum Application**
 
 A simple Django-based forum application where users can create threads, comment on threads, and interact with each other. This project includes full **CRUD** functionality for threads and comments, along with **user authentication** to ensure that only logged-in users can create, edit, or delete their posts.
@@ -9,14 +10,17 @@ A simple Django-based forum application where users can create threads, comment 
 - **Thread Management**: Users can create, read, update, and delete threads.
 - **Commenting**: Authenticated users can comment on threads, with full CRUD functionality for comments.
 - **User Permissions**: Only authenticated users can create, edit, or delete threads and comments.
+- **Likes System**: Users can like comments.
+- **API Endpoints**: A REST API powered by Django REST Framework (DRF) for managing users, threads, comments, and likes.
 
 ---
 
 ## **Tech Stack**
 - **Backend**: Django (Python web framework)
+- **API**: Django REST Framework (DRF) with dj-rest-auth for authentication
 - **Database**: SQLite (default for development, can be changed to PostgreSQL, MySQL, etc.)
 - **Authentication**: Django's built-in authentication system
-- **Frontend**: Minimal HTML templates (no external CSS or JS frameworks used; however, Bootstrap can be added for styling)
+- **Frontend**: Minimal HTML templates with static CSS files (no external JS frameworks used; however, Bootstrap can be added for styling)
 - **Version Control**: Git & GitHub for collaboration
 
 ---
@@ -26,7 +30,7 @@ A simple Django-based forum application where users can create threads, comment 
 ### 1. **Clone the Repository**
 ```bash
 git clone https://github.com/LisaMatzner/Django-Forum.git
-cd django-forum
+cd forum_project
 ```
 
 ### 2. **Create a Virtual Environment**  
@@ -66,11 +70,42 @@ Visit `http://127.0.0.1:8000/` in your browser.
 
 ---
 
+## **API Endpoints**
+
+### **Authentication**
+- `POST /dj-rest-auth//login/` - Log in and receive an authentication token.
+- `POST /dj-rest-auth//logout/` - Log out and invalidate the token.
+
+### **Threads**
+- `GET /api/threads/` - Retrieve a list of all threads.
+- `POST /api/threads/` - Create a new thread.
+- `GET /api/threads/{id}/` - Retrieve a single thread.
+- `PUT /api/threads/{id}/` - Update an existing thread (owner only).
+- `DELETE /api/threads/{id}/` - Delete a thread (owner only).
+
+### **Comments**
+- `GET /api/comments/` - Retrieve a list of all comments.
+- `POST /api/comments/` - Create a new comment.
+- `GET /api/comments/{id}/` - Retrieve a single comment.
+- `PUT /api/comments/{id}/` - Update a comment (owner only).
+- `DELETE /api/comments/{id}/` - Delete a comment (owner only).
+
+### **Likes**
+- `GET /api/likes/` - Retrieve a list of all likes.
+- `GET /api/likes/{id}/` - Retrieve details of a specific like.
+
+### **Users**
+- `GET /api/users/` - Retrieve a list of all users (Admin only).
+- `GET /api/users/{id}/` - Retrieve details of a single user (Admin only).
+
+---
+
 ## **Usage**
 - **Login**: Navigate to `/login/` to sign in with the credentials you created during registration.
 - **Register**: Navigate to `/register/` to create a new account.
 - **Threads**: Navigate to `/threads/` to view a list of all threads. Users can click on a thread to view it, post comments, or edit their own threads.
 - **Comments**: Users can add, edit, or delete comments on threads, but only on threads they have access to.
+- **API Access**: Use tools like Postman or cURL to interact with the API endpoints listed above.
 
 ---
 
@@ -84,9 +119,9 @@ Visit `http://127.0.0.1:8000/` in your browser.
 ### **Development Workflow**
 1. Create a **feature branch** for each task or feature.
 2. Develop the feature, commit frequently, and push to GitHub.
-3. Open a **pull request** to merge your feature branch into `develop`.
+3. Open a **pull request** to merge your feature branch into `dev`.
 4. After review and approval, the pull request is merged.
-5. After all features are complete, merge `develop` into `main` for deployment.
+5. After all features are complete, merge `dev` into `main` for deployment.
 
 ---
 
@@ -132,7 +167,7 @@ This project is licensed under the MIT License – see the [LICENSE](LICENSE) fi
 - Implement **password reset** functionality.
 - Add more detailed **styling** using CSS frameworks (like Bootstrap).
 - Allow **thread categorization** (e.g., General, Feedback, Support).
-- Add **search functionality** to find threads by title or content.
+- Add **token authentication**
 
 ---
 

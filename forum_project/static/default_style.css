@@ -79,6 +79,17 @@ body {
     margin-top: 0px;
 }
 
+.like-comment {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.like-comment span {
+    padding-left: 10px;
+    color: white;
+}
+
 .article-content {
     width: 85%;
 }

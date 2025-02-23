@@ -1,10 +1,11 @@
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count, F
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
+from django.http import JsonResponse
 
-from .models import Thread, Comment
+from .models import Thread, Comment, Like
 from . import forms
 
 
@@ -32,19 +33,21 @@ class ThreadListView(ListView):
             )
 
         context["thread_info"] = thread_info
-
         return context
 
 
 class ThreadDetailView(DetailView):
     model = Thread
     template_name = "thread.html"
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["comments"] = self.object.comment_set.all() # Get all comments from the parent thread. Customize 'comment_set' with <related_name='comments'> inside Post model: thread = models.ForeignKey(Thread, related_name=...)
-        context_object_name = 'thread'
+        liked_comments = set()
+        for comment in context["comments"]:
+            if comment.likes.filter(liked_by=self.request.user).exists():
+                liked_comments.add(comment.id)
 
+        context["liked_comments"] = liked_comments
         return context
     
     def get_object(self, queryset=None):
@@ -54,7 +57,6 @@ class ThreadDetailView(DetailView):
         if not self.request.session.get(user_session_key, False):
             thread.views = F("views") + 1
             thread.save()
-
             self.request.session[user_session_key] = True
         
         return thread
@@ -121,3 +123,21 @@ class CommentDeleteView(LoginRequiredMixin, DeleteView):
         thread = comment.thread # Get the parent thread
 
         return reverse_lazy("thread", kwargs={"pk": thread.pk}) # Redirect to the parent thread
+    
+
+class ToggleLikeView(LoginRequiredMixin, View):
+
+    def post(self, request, comment_id):
+        user = request.user
+        comment = get_object_or_404(Comment, id=comment_id)
+
+        like, created = Like.objects.get_or_create(liked_by=user, comment=comment)
+
+        if not created:
+            like.delete()  # Unlike if already liked
+            liked = False
+        else:
+            liked = True  # Like the comment
+
+        return redirect("thread", pk=comment.thread.pk)
+        # return JsonResponse({"liked": liked, "like_count": comment.like_count()})

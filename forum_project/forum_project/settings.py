@@ -37,9 +37,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
     'forum',
     'users',
     'search',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -133,3 +137,14 @@ AUTH_USER_MODEL = "users.CustomUser"
 # how to get user model:
 # from django.conf import settings
 # settings.AUTH_USER_MODEL # <- that's the user
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',  
+    ]
+}

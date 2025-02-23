@@ -22,6 +22,20 @@
                 {% else %}
                 <p> </p>
                 {% endif %}
+                <div class="like-comment">
+                    <form method="POST" action="{% url 'toggle_like' comment.id %}">
+                        {% csrf_token %}
+                        <button type="submit">
+                            {% if comment.id in liked_comments %}
+                                ❤️ Unlike
+                            {% else %}
+                                🤍 Like
+                            {% endif %}
+                        </button>
+                    </form>
+            
+                    <span>{{ comment.like_count }} Likes</span>
+                </div>
             </div>
         </article>
         <div class="author-div">

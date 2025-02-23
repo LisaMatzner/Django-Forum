@@ -22,4 +22,7 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('forum/', include('forum.urls')),
     path('search/', include('search.urls')),
+    path('api/', include('api.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+    path('dj-rest-auth/', include('dj_rest_auth.urls')),
 ]
