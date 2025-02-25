@@ -7,7 +7,7 @@ from forum.permissions import IsOwnerOrReadOnly
 
 
 class ThreadRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly, )
+    permission_classes = (permissions.IsAdminUser, IsOwnerOrReadOnly, )
     queryset = Thread.objects.all()
     serializer_class = ThreadSerializer
 
