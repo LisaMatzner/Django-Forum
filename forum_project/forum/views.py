@@ -1,11 +1,11 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.db.models import Count, F
+from django.db.models import Count, F, Case, When, Value, IntegerField, DateTimeField, OuterRef, Subquery
 from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse
 
-from .models import Thread, Comment, Like
+from .models import Thread, Comment, Like, ThreadStatus
 from . import forms
 
 
@@ -13,28 +13,47 @@ class ThreadListView(ListView):
     model = Thread
     template_name = "threads.html"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        threads = self.object_list
-        thread_info = []
-        for thread in threads:
-            comments = Comment.objects.filter(thread=thread)
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     threads = self.object_list
+    #     thread_info = []
+    #     for thread in threads:
+    #         comments = Comment.objects.filter(thread=thread)
 
-            comment_count = comments.aggregate(comment_count=Count("pk"))["comment_count"]
+    #         comment_count = comments.aggregate(comment_count=Count("pk"))["comment_count"]
         
-            last_comment = comments.order_by("-date_posted").first()
+    #         last_comment = comments.order_by("-date_posted").first()
 
-            thread_info.append(
-                {
-                    "thread": thread,
-                    "comment_count": comment_count,
-                    "last_comment": last_comment,
-                }
+    #         thread_info.append(
+    #             {
+    #                 "thread": thread,
+    #                 "comment_count": comment_count,
+    #                 "last_comment": last_comment,
+    #             }
+    #         )
+
+    #     context["thread_info"] = thread_info
+    #     return context
+    
+    def get_queryset(self):
+        all_threads = Thread.objects.all()
+        #pinned_threads = all_threads.filter(flag=ThreadStatus.PINNED)
+        #other_threads = all_threads.exclude(flag=ThreadStatus.PINNED)
+        #return pinned_threads | other_threads
+        #ordered_threads = all_threads.order_by(F("flag") != ThreadStatus.PINNED, "-date_opened_at")
+
+        ordered_threads = all_threads.annotate(pinned_sort_order=Case(
+            When(flag=ThreadStatus.PINNED, then=Value(0)),
+            default=Value(1),
+            output_field=IntegerField()
+            ),
+            last_comment_date=Subquery(
+                Comment.objects.filter(thread=OuterRef("pk")).order_by("-date_posted").values("date_posted")[:1],
+                output_field=DateTimeField()
             )
+        ).order_by("pinned_sort_order", "-last_comment_date")
 
-        context["thread_info"] = thread_info
-        return context
-
+        return ordered_threads
 
 class ThreadDetailView(DetailView):
     model = Thread
@@ -60,6 +79,7 @@ class ThreadDetailView(DetailView):
             self.request.session[user_session_key] = True
         
         return thread
+    
 
 class ThreadCreateView(LoginRequiredMixin, CreateView):
     model = Thread
